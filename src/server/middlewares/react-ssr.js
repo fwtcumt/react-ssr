@@ -14,9 +14,7 @@ export default (ctx, next) => {
         <title>my react ssr</title>
       </head>
       <body>
-        <div id="root">
-          ${html}
-        </div>
+        <div id="root">${html}</div>
       </body>
       <script src="index.js"></script>
     </html>

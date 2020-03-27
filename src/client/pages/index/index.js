@@ -6,13 +6,13 @@ class Index extends React.Component {
   }
 
   handleClick() {
-    alert('一起来玩 react ssr 呀！');
+    alert('一起来玩 react ssr 呀0！');
   }
 
   render() {
     return (
       <h1 onClick={this.handleClick}>
-        点我一下试试
+        <div>中国中央银行</div>
       </h1>
     );
   }
