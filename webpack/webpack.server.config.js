@@ -1,5 +1,5 @@
 const path = require('path');
-const nodeExternals = require('webpack-node-externals');
+const nodeExternals = require('webpack-node-externals'); // node端会自动载入的模块
 
 // 路径转换
 const resolvePath = pathstr => path.resolve(__dirname, pathstr);
@@ -14,7 +14,7 @@ module.exports = {
     filename: 'app.js', // 打包后的文件名
     path: resolvePath('../dist/server') // 文件输出目录
   },
-  externals: [nodeExternals()],
+  externals: [nodeExternals()], // 端不需要打包的模块
   module: {
     rules: [{
       test: /\.jsx?$/,

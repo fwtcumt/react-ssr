@@ -1,11 +1,21 @@
 //完成react ssr工作的中间件，组建在服务端渲染的逻辑都在这个文件内
 
 import React from 'react';
-import Index from '../../client/pages/index';
 import { renderToString } from 'react-dom/server';
+import { StaticRouter } from 'react-router-dom';
+import routeList from '../../client/router/route-config';
+import App from '../../client/router/index';
+
 
 export default (ctx, next) => {
-  const html = renderToString(<Index />);
+
+  const path = ctx.request.path; // 请求的 path
+
+  const html = renderToString(
+    <StaticRouter location={path}>
+      <App routeList={routeList} />
+    </StaticRouter>
+  );
   ctx.body = `
     <!DOCTYPE html>
     <html lang="en">

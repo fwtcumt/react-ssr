@@ -1,4 +1,5 @@
 // 对服务端代码进行监控编译
+// 为什么不能像客户端代码编译那么简单呢，是因为在编译完服务端代码后，需要重启node服务
 
 const webpack  = require('webpack');
 const config =  require('../webpack.server.config');
