@@ -47,12 +47,13 @@ export default async (ctx, next) => {
         <meta charset="UTF-8">
         ${helmet.title.toString()}
         ${helmet.meta.toString()}
+        <link rel="stylesheet" type="text/css" href="/main.css" />
       </head>
       <body>
         <div id="root">${html}</div>
         <textarea id="ssrTextInitData" style="display:none;">${JSON.stringify(fetchResult)}</textarea>
       </body>
-      <script src="index.js"></script>
+      <script src="/main.js"></script>
     </html>
   `;
   

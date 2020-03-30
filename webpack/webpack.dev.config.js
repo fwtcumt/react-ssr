@@ -1,20 +1,35 @@
 const path = require('path');
 
-// 路径转换
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 const resolvePath = pathstr => path.resolve(__dirname, pathstr);
 
 module.exports = {
   mode: 'development',
-  entry: resolvePath('../src/client/app/index.js'), // 客户端入口文件
+  entry: {
+    main: resolvePath('../src/client/app/index.js')
+  },
   output: {
-    filename: 'index.js', // 打包后的文件名
-    path: resolvePath('../dist/static') // 文件输出目录
+    filename: '[name].js',
+    path: resolvePath('../dist/static')
   },
   module: {
     rules: [{
       test: /\.jsx?$/,
       loader: 'babel-loader',
       exclude: /node_modules/
+    }, {
+      test: /\.(less|css)$/,
+      use: [
+        { loader: MiniCssExtractPlugin.loader },
+        { loader: 'css-loader' },
+        { loader: 'postcss-loader' },
+        { loader: 'less-loader' }
+      ]
     }]
-  }
+  },
+  plugins: [
+    new MiniCssExtractPlugin({
+    filename: '[name].css'
+  })]
 };

@@ -2,6 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 
 import tempData from './data';
+import './index.less';
 
 class List extends React.Component {
   constructor(props) {
@@ -49,7 +50,7 @@ class List extends React.Component {
     const { data } = this.state.fetchData || {};
 
     return (
-      <div>
+      <div className="list-page">
         <Helmet>
           <title>列表页</title>
           <meta name="description" content="列表描述" />
@@ -64,6 +65,7 @@ class List extends React.Component {
             <p>{item.desc}</p>
           </div>
         ))}
+        <button className="btn" onClick={this.handleClick}>点我一下啊</button>
       </div>
     );
   }
