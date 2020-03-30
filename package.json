@@ -16,6 +16,7 @@
     "koa2": "^2.0.0-alpha.7",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-helmet": "^5.2.1",
     "react-router-dom": "^5.1.2"
   },
   "devDependencies": {

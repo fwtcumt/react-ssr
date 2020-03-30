@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 
 import tempData from './data';
 
@@ -19,21 +20,23 @@ class List extends React.Component {
             code: 0,
             data: tempData
           });
-        }, 500);
+        }, 100);
       });
     }
 
     const res = await fetchData();
-    return res;
+
+    return {
+      fetchData: res
+    };
   }
 
   componentDidMount(){
-    if(!this.state.data){
+
+    if(!this.state.fetchData){
       //如果没有数据，则进行数据请求
       List.getInitialProps().then(res => {
-        this.setState({
-          data:res.data || []
-        });
+        this.setState(res);
       });
     }
   }
@@ -43,11 +46,18 @@ class List extends React.Component {
   }
 
   render() {
-    const { code, data } = this.state || {};
+    const { data } = this.state.fetchData || {};
 
     return (
       <div>
+        <Helmet>
+          <title>列表页</title>
+          <meta name="description" content="列表描述" />
+          <meta name="keywords" content="列表 来来来" />
+        </Helmet>
+
         {!data && <div>暂无数据</div>}
+
         {data && data.map((item, index) => (
           <div key={index}>
             <h3>{item.title}</h3>
