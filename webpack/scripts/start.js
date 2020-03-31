@@ -1,8 +1,7 @@
 const { spawn } = require('child_process');
-const chalk = require('chalk');
 const constantCode = require('./constant');
 
-console.log(chalk.green('===启动监控服务==='));
+console.log('===启动监控服务===');
 
 //客户端代码构建服务进程
 const feCodeWatchProcess = spawn(process.platform === 'win32' ? 'yarn.cmd' : 'yarn', ['fe:watch'],{stdio:'inherit'});
@@ -42,20 +41,20 @@ const killChild=()=>{
 
 //主进程关闭时退出子进程
 process.on('close', (code) => {
-  console.log(chalk.yellow('主进程关闭：'), code);
+  console.log('主进程关闭：', code);
   killChild();
 });
 
 //主进程关闭时退出子进程
 process.on('exit', (code) => {
-  console.log(chalk.yellow('主进程关闭：'), code);
+  console.log('主进程关闭：', code);
   killChild();
 });
 
 //非正常退出情况
 process.on('SIGINT', function () {
   svrCodeWatchProcess.stdin.write('exit', (error) => {
-    console.log(chalk.yellow('服务端代码监控进程关闭'));
+    console.log('服务端代码监控进程关闭');
   });
   killChild();
 });

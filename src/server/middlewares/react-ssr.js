@@ -8,6 +8,12 @@ import routeList from '../../client/router/route-config';
 import matchRoute from '../../share/match-route';
 import App from '../../client/router/index';
 
+// 导入资源处理库
+const getAssets = require('../common/assets');
+
+// 得到静态资源
+const assetsMap = getAssets();
+
 export default async (ctx, next) => {
 
   const path = ctx.request.path; // 请求的 path
@@ -47,13 +53,13 @@ export default async (ctx, next) => {
         <meta charset="UTF-8">
         ${helmet.title.toString()}
         ${helmet.meta.toString()}
-        <link rel="stylesheet" type="text/css" href="/main.css" />
+        ${assetsMap.css.join('')}
       </head>
       <body>
         <div id="root">${html}</div>
         <textarea id="ssrTextInitData" style="display:none;">${JSON.stringify(fetchResult)}</textarea>
       </body>
-      <script src="/main.js"></script>
+      ${assetsMap.js.join('')}
     </html>
   `;
   

@@ -13,7 +13,7 @@ module.exports = function (port) {
     const order = `lsof -i :${port}`;
 		const exec = require('child_process').exec;
 		
-    exec(order, (err, stdout, stderr) => {
+    exec(order, (err, stdout) => {
 			if (err) {
 				return console.log('检查指定端口失败！！');
 			}
@@ -21,7 +21,7 @@ module.exports = function (port) {
 				let p = line.trim().split(/\s+/);
 				let address = p[1];
 				if (address != undefined && address != "PID") {
-					exec('kill -9 ' + address, (err, stdout, stderr) => {
+					exec('kill -9 ' + address, (err) => {
 						if (err) {
 							return console.log('释放指定端口失败！！');
 						}
