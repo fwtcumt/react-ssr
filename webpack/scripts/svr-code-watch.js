@@ -30,7 +30,7 @@ const watching = compiler.watch({
 });
 
 compiler.hooks.done.tap('done',function (data) {
-  console.log('===服务端代码编译完成===');
+  console.log('\n ===服务端代码编译完成=== \n');
 });
 
 //收到退出信号 退出自身进程

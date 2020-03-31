@@ -1,7 +1,8 @@
 import React from 'react';
+import { hot } from 'react-hot-loader/root';
 import { Link } from 'react-router-dom';
 
-class Index extends React.Component {
+class Layout extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -21,4 +22,4 @@ class Index extends React.Component {
   }
 }
 
-export default Index;
+export default hot(Layout);

@@ -1,17 +1,22 @@
 const path = require('path');
+const webpack = require('webpack');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const resolvePath = pathstr => path.resolve(__dirname, pathstr);
 
+// 指定babel编译环境
+process.env.BABEL_ENV ='development';
+
 module.exports = {
   mode: 'development',
   entry: {
-    main: resolvePath('../src/client/app/index.js')
+    main: ['react-hot-loader/patch', resolvePath('../src/client/app/index.js')]
   },
   output: {
     filename: '[name].js',
-    path: resolvePath('../dist/static')
+    path: resolvePath('../dist/static'),
+    publicPath: 'http://localhost:9002/'
   },
   module: {
     rules: [
@@ -46,6 +51,10 @@ module.exports = {
   plugins: [
     new MiniCssExtractPlugin({
       filename: '[name].css'
+    }),
+    new webpack.DefinePlugin({
+      '__IS_PROD__': false,
+      '__SERVER__': false
     })
   ],
   optimization: {
@@ -57,6 +66,11 @@ module.exports = {
           name: 'libs'
         }
       }
+    }
+  },
+  resolve: {
+    alias: {
+      'react-dom': '@hot-loader/react-dom'
     }
   }
 };

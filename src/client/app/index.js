@@ -28,3 +28,8 @@ function clientRender() {
 }
 
 clientRender();
+
+// 只有在开发环境才启用热更新
+if (process.env.NODE_ENV === 'development' &&  module.hot) {
+  module.hot.accept();
+}
