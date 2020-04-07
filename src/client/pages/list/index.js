@@ -8,7 +8,11 @@ class List extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = props.initialData || props.staticContext && props.staticContext.initialData || {};
+    if (__SERVER__) {
+      this.state = props.staticContext && props.staticContext.initialData || {};
+    } else {
+      this.state = window.__INITIAL_DATA__ || {};
+    }
   }
 
   // 双端协定的数据预取方法

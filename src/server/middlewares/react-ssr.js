@@ -8,25 +8,32 @@ import routeList from '../../client/router/route-config';
 import matchRoute from '../../share/match-route';
 import App from '../../client/router/index';
 
+// 静态路由
+import getStaticRoutes from '../common/get-static-routes';
+
 // 导入资源处理库
 const getAssets = require('../common/assets');
-
-// 得到静态资源
-const assetsMap = getAssets();
 
 export default async (ctx, next) => {
 
   const path = ctx.request.path; // 请求的 path
 
+  if (path.indexOf('.') > -1) {
+    ctx.body = null;
+    return next();
+  }
+
+  // 获得静态路由
+  const staticRoutesList = await getStaticRoutes(routeList);
+
   // 查找到的目标路由对象
-  let targetRoute = matchRoute(path, routeList);
+  let matchResult = await matchRoute(path, staticRoutesList);
+  let { targetRoute } = matchResult;
 
+  // 服务端请求数据
+  const fetchDataFn = targetRoute && targetRoute.component && targetRoute.component.getInitialProps;
   let fetchResult = {};
-
-  if(targetRoute && targetRoute.component && targetRoute.component.getInitialProps){
-
-    const fetchDataFn = targetRoute.component.getInitialProps;
-
+  if (fetchDataFn) {
     fetchResult = await fetchDataFn();
   }
 
@@ -37,14 +44,15 @@ export default async (ctx, next) => {
 
   const html = renderToString(
     <StaticRouter location={path} context={context}>
-      <App routeList={routeList} />
+      <App routeList={staticRoutesList} />
     </StaticRouter>
   );
 
-  // 得到组件的序列化数据
-  const helmet = Helmet.renderStatic();
+  // 静态资源
+  const assetsMap = getAssets();
 
-  // 为了防止 xss 攻击，咱们这里将数据放到了textarea标签内
+  // 组件的序列化数据
+  const helmet = Helmet.renderStatic();
 
   ctx.body = `
     <!DOCTYPE html>
@@ -57,11 +65,11 @@ export default async (ctx, next) => {
       </head>
       <body>
         <div id="root">${html}</div>
-        <textarea id="ssrTextInitData" style="display:none;">${JSON.stringify(fetchResult)}</textarea>
       </body>
+      <script>window.__INITIAL_DATA__=${JSON.stringify(fetchResult)}</script>
       ${assetsMap.js.join('')}
     </html>
   `;
   
-  next();
+  await next();
 }

@@ -37,7 +37,7 @@ module.exports = {
             loader: 'file-loader',
             options: {
               name: isProd ? 'img/[name].[hash:8].[ext]' : 'img/[name].[ext]',
-              publicPath: '/'
+              publicPath: isProd ? '/' : 'http://localhost:9002'
             }
           }
         ]

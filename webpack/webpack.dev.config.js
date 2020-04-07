@@ -40,8 +40,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: 'img/[name].[ext]',
-              publicPath: '/'
+              name: 'img/[name].[ext]'
             }
           }
         ]
@@ -60,6 +59,12 @@ module.exports = {
   optimization: {
     splitChunks: {
       cacheGroups: {
+        styles: {
+          name: 'styles',
+          test: /\.less$/,
+          chunks: 'all',
+          enforce: true,
+        },
         libs: {
           test: /node_modules/,
           chunks: 'initial',

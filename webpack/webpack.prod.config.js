@@ -98,6 +98,12 @@ module.exports = {
     ],
     splitChunks: {
       cacheGroups: {
+        styles: {
+          name: 'styles',
+          test: /\.less$/,
+          chunks: 'all',
+          enforce: true,
+        },
         libs: {
           test: /node_modules/,
           chunks: 'initial',
