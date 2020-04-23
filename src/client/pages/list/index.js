@@ -1,8 +1,8 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-
+import withStyles from 'isomorphic-style-loader/withStyles';
 import tempData from './data';
-import './index.less';
+import css from './index.less';
 
 class List extends React.Component {
   constructor(props) {
@@ -37,7 +37,6 @@ class List extends React.Component {
   }
 
   componentDidMount(){
-
     if(!this.state.fetchData){
       //如果没有数据，则进行数据请求
       List.getInitialProps().then(res => {
@@ -75,4 +74,4 @@ class List extends React.Component {
   }
 }
 
-export default List;
+export default withStyles(css)(List);

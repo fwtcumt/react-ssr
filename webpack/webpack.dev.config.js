@@ -1,8 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
 
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
 const resolvePath = pathstr => path.resolve(__dirname, pathstr);
 
 // 指定babel编译环境
@@ -28,8 +26,13 @@ module.exports = {
       {
         test: /\.(less|css)$/,
         use: [
-          { loader: MiniCssExtractPlugin.loader },
-          { loader: 'css-loader' },
+          { loader: 'isomorphic-style-loader' },
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 2
+            }
+          },
           { loader: 'postcss-loader' },
           { loader: 'less-loader' }
         ]
@@ -48,9 +51,6 @@ module.exports = {
     ]
   },
   plugins: [
-    new MiniCssExtractPlugin({
-      filename: '[name].css'
-    }),
     new webpack.DefinePlugin({
       '__IS_PROD__': false,
       '__SERVER__': false
@@ -59,12 +59,6 @@ module.exports = {
   optimization: {
     splitChunks: {
       cacheGroups: {
-        styles: {
-          name: 'styles',
-          test: /\.less$/,
-          chunks: 'all',
-          enforce: true,
-        },
         libs: {
           test: /node_modules/,
           chunks: 'initial',

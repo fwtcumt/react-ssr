@@ -7,7 +7,7 @@ const checkIsAsyncRoute = (component) => {
 }
 
 async function getStaticRoutes(routes) {
-
+  
   const key ='__dynamics_route_to_static';
   if (global[key]){
     // 如有缓存，读缓存
@@ -20,16 +20,17 @@ async function getStaticRoutes(routes) {
 
   for (let i = 0; i < len; i++) {
     let item = routes[i];
+    
     if (checkIsAsyncRoute(item.component)) {
+      
       staticRoutes.push({
         ...item,
-        component: (await item.component().props.load()).default
+        component: (await item.component.loader()).default
       });
     } else {
       staticRoutes.push({ ...item });
     }
   }
-
   global[key] = staticRoutes;
   return staticRoutes;
 }

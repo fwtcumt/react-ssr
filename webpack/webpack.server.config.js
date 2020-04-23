@@ -31,6 +31,20 @@ module.exports = {
         exclude: /node_modules/
       },
       {
+        test: /\.(less|css)$/,
+        use: [
+          { loader: 'isomorphic-style-loader' },
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 2
+            }
+          },
+          { loader: 'postcss-loader' },
+          { loader: 'less-loader' }
+        ]
+      },
+      {
         test: /\.(png|jpg|gif)$/,
         use: [
           {
@@ -45,6 +59,7 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.HashedModuleIdsPlugin(),
     new CleanWebpackPlugin(),
     new webpack.DefinePlugin({
       '__IS_PROD__': isProd,

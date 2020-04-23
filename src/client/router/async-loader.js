@@ -2,47 +2,35 @@ import React from 'react';
 import Loading from './loading';
 import proConfig from '../../share/pro-config';
 
-class AsyncBundle extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      mod: this.mod || null
-    }
-  }
-
-  componentDidMount() {
-    if (!this.state.mod) {
-      this.load();
-    }
-  }
-
-  load = () => {
-    this.setState({ mod: null });
-    this.props.load().then(mod => {
-      this.setState({ mod: mod.default || mod });
-    });
-  }
-
-  render() {
-    const { mod } = this.state;
-    return mod ? this.props.children(mod) : <Loading />;
-  }
-}
-
 function AsyncLoader (loader) {
+  class AsyncBundle extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        Mod: null
+      }
+    }
+  
+    componentDidMount() {
+      if (!this.state.Mod) {
+        loader().then(res => {
+          this.setState({ Mod: res.default });
+        });
+      }
+    }
+  
+    render() {
+      const { Mod } = this.state;
 
-  function AsyncFn(props) {
-    return (
-      <AsyncBundle load={loader}>
-        {(Comp) => <Comp {...props} />}
-      </AsyncBundle>
-    );
+      return Mod ? <Mod {...this.props} /> : <Loading />;
+    }
   }
 
   // 标记为异步组件
-  AsyncFn[proConfig.asyncComponentKey] = true;
+  AsyncBundle[proConfig.asyncComponentKey] = true;
+  AsyncBundle.loader = loader;
 
-  return AsyncFn;
+  return AsyncBundle;
 }
 
 export default AsyncLoader;

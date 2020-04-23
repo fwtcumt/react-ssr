@@ -1,26 +1,22 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import pic_moon from './images/moon.gif';
+import css from './index.less';
+import withStyles from 'isomorphic-style-loader/withStyles';
 
-class Index extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+function Index() {
+  return (
+    <div>
+      <Helmet>
+        <title>首页啊</title>
+        <meta name="description" content="首页描述" />
+        <meta name="keywords" content="首页" />
+      </Helmet>
 
-  render() {
-    return (
-      <div>
-        <Helmet>
-          <title>首页啊</title>
-          <meta name="description" content="首页描述" />
-          <meta name="keywords" content="首页" />
-        </Helmet>
-
-        <h1>中国中央银行热更新好啦</h1>
-        <img src={pic_moon} alt=""/>
-      </div>
-    );
-  }
+      <h1>中国中央银行热更新好啦</h1>
+      <img src={pic_moon} alt=""/>
+    </div>
+  );
 }
 
-export default Index;
+export default withStyles(css)(Index);

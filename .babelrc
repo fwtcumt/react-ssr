@@ -13,8 +13,7 @@
         "@babel/preset-react"
       ],
       "plugins": [
-        "@babel/plugin-proposal-class-properties",
-        "./webpack/babel/plugin/no-require-css"
+        "@babel/plugin-proposal-class-properties"
       ]
     },
     "development": {

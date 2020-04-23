@@ -7,9 +7,6 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 //生成 manifest 方便定位对应的资源文件
 const ManifestPlugin = require('webpack-manifest-plugin');
 
-// 聚合css
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
 // 压缩css
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
@@ -43,8 +40,13 @@ module.exports = {
       {
         test: /\.(less|css)$/,
         use: [
-          { loader: MiniCssExtractPlugin.loader },
-          { loader: 'css-loader' },
+          { loader: 'isomorphic-style-loader' },
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 2
+            }
+          },
           { loader: 'postcss-loader' },
           { loader: 'less-loader' }
         ]
@@ -64,9 +66,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new MiniCssExtractPlugin({
-      filename: 'css/[name].[contenthash:8].css'
-    }),
+    new webpack.HashedModuleIdsPlugin(),
     new CleanWebpackPlugin(),
     new ManifestPlugin({
       fileName: '../server/asset-manifest.json',
@@ -98,12 +98,6 @@ module.exports = {
     ],
     splitChunks: {
       cacheGroups: {
-        styles: {
-          name: 'styles',
-          test: /\.less$/,
-          chunks: 'all',
-          enforce: true,
-        },
         libs: {
           test: /node_modules/,
           chunks: 'initial',
