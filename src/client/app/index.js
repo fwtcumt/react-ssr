@@ -3,11 +3,13 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import StyleContext from 'isomorphic-style-loader/StyleContext';
 import App from '../router/index';
 import routeList from '../router/route-config';
 import matchRoute from '../../share/match-route';
 import proConfig from '../../share/pro-config';
+import getStore from '../../share/redux/store';
 
 function renderDom() {
   const insertCss = (...styles) => {
@@ -15,17 +17,25 @@ function renderDom() {
     return () => removeCss.forEach(dispose => dispose()); // 组件卸载时 移除当前的 style 标签
   }
 
+  const store = getStore(window.__INITIAL_DATA__);
+  window.__STORE__ = store;
+
   ReactDom.hydrate(
-    <BrowserRouter>
-      <StyleContext.Provider value={{ insertCss }}>
-        <App routeList={routeList} />
-      </StyleContext.Provider>
-    </BrowserRouter>,
+    <Provider store={store}>
+      <BrowserRouter>
+        <StyleContext.Provider value={{ insertCss }}>
+          <App routeList={routeList} />
+        </StyleContext.Provider>
+      </BrowserRouter>
+    </Provider>,
     document.getElementById('root')
   );
 }
 
 function clientRender() {
+
+  let initialData = JSON.parse(document.getElementById('ssrTextInitData').value);
+  window.__INITIAL_DATA__ = initialData;
 
   // 查找路由
   let matchResult = matchRoute(document.location.pathname, routeList);

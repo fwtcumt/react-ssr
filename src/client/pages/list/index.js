@@ -1,47 +1,25 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import withStyles from 'isomorphic-style-loader/withStyles';
 import tempData from './data';
 import css from './index.less';
+
+import { getInitialData } from './redux/index';
+import isoConnect from '../../common/ios-connect';
 
 class List extends React.Component {
   constructor(props) {
     super(props);
-
-    if (__SERVER__) {
-      this.state = props.staticContext && props.staticContext.initialData || {};
-    } else {
-      this.state = window.__INITIAL_DATA__ || {};
-    }
   }
 
-  // 双端协定的数据预取方法
-  static async getInitialProps() {
-    // 模拟数据请求的方法
-    const fetchData = () => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve({
-            code: 0,
-            data: tempData
-          });
-        }, 100);
-      });
-    }
-
-    const res = await fetchData();
-
-    return {
-      fetchData: res
-    };
+  //数据预取方法 用于服务端调用 参数内可以获得store 
+  static async  getInitialProps({ store }) {
+    //通过 dispach 获得数据,同时也会更新store
+    return store.dispatch(getInitialData());
   }
 
-  componentDidMount(){
-    if(!this.state.fetchData){
-      //如果没有数据，则进行数据请求
-      List.getInitialProps().then(res => {
-        this.setState(res);
-      });
+  componentDidMount() {
+    if (!this.props.initialData.fetchData.data) {
+      this.props.getInitialData();
     }
   }
 
@@ -50,7 +28,9 @@ class List extends React.Component {
   }
 
   render() {
-    const { data } = this.state.fetchData || {};
+    //渲染数据 这里不变
+    const { fetchData } = this.props.initialData;
+    const { code, data } = fetchData || {};
 
     return (
       <div className="list-page">
@@ -74,4 +54,16 @@ class List extends React.Component {
   }
 }
 
-export default withStyles(css)(List);
+const mapStateToProps = state => ({
+  initialData: state.listPage,
+});
+
+const mapDispatchToProps = {
+  getInitialData
+};
+
+export default isoConnect({
+  css,
+  mapStateToProps,
+  mapDispatchToProps
+}, List);

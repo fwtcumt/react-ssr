@@ -4,10 +4,13 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import { Provider } from "react-redux";
 import StyleContext from 'isomorphic-style-loader/StyleContext';
 import routeList from '../../client/router/route-config';
 import matchRoute from '../../share/match-route';
 import App from '../../client/router/index';
+
+import getStore from '../../share/redux/store';
 
 // 静态路由
 import getStaticRoutes from '../common/get-static-routes';
@@ -31,29 +34,27 @@ export default async (ctx, next) => {
   let matchResult = await matchRoute(path, staticRoutesList);
   let { targetRoute } = matchResult;
 
+  const store = getStore();
+
   // 服务端请求数据
   const fetchDataFn = targetRoute && targetRoute.component && targetRoute.component.getInitialProps;
   
-  let fetchResult = {};
   if (fetchDataFn) {
-    fetchResult = await fetchDataFn();
+    await fetchDataFn({ store });
   }
-
-  // 将预取数据在这里传递过去 组内通过props.staticContext获取
-  const context = {
-    initialData: fetchResult
-  };
 
   // CSS for all rendered React components
   const css = new Set();
   const insertCss = (...styles) => styles.forEach(style => css.add(style._getContent()));
 
   const html = renderToString(
-    <StaticRouter location={path} context={context}>
-      <StyleContext.Provider value={{ insertCss }}>
-        <App routeList={staticRoutesList} />
-      </StyleContext.Provider>
-    </StaticRouter>
+    <Provider store={store}>
+      <StaticRouter location={path}>
+        <StyleContext.Provider value={{ insertCss }}>
+          <App routeList={staticRoutesList} />
+        </StyleContext.Provider>
+      </StaticRouter>
+    </Provider>
   );
 
   const styles = [];
@@ -75,11 +76,12 @@ export default async (ctx, next) => {
         <meta charset="UTF-8">
         ${helmet.title.toString()}
         ${helmet.meta.toString()}
+        ${styles.join('')}
       </head>
       <body>
         <div id="root">${html}</div>
+        <textarea id="ssrTextInitData" style="display:none;">${JSON.stringify(store.getState())}</textarea>
       </body>
-      <script>window.__INITIAL_DATA__=${JSON.stringify(fetchResult)}</script>
       ${assetsMap.js.join('')}
     </html>
   `;
