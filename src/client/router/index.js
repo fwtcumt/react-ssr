@@ -1,15 +1,15 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import Layout from '../app/layout';
+import { hot } from 'react-hot-loader/root';
+import withStyles from 'isomorphic-style-loader/withStyles';
+import css from './index.less';
 
 function App({ routeList }) {
   return (
-    <Layout>
-      <Switch>
-        {routeList.map(item => <Route key={item.path} {...item} />)}
-      </Switch>  
-    </Layout>
+    <Switch>
+      {routeList.map(item => <Route key={item.path} {...item} />)}
+    </Switch>
   );
 }
 
-export default App;
+export default hot(withStyles(css)(App));

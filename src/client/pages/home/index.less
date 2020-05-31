@@ -1,0 +1,227 @@
+.page-home {
+  display: flex;
+  flex-direction: column;
+
+  // home页头
+  .header {
+    height: 44px;
+    padding: 10px 20px;
+    background-color: #d43d3d;
+    display: flex;
+    justify-content: space-between;
+    .hd-l {
+      width: 40px;
+      background: url(../../assets/message.png) no-repeat center;
+      background-size: contain;
+    }
+    .hd-m {
+      width: 100px;
+      background: url(../../assets/logo_white.png) no-repeat center;
+      background-size: cover;
+    }
+    .hd-r {
+      width: 40px;
+      background: url(../../assets/search_white.png) no-repeat center;
+      background-size: contain;
+    }
+  }
+
+  // hone频道列表
+  .navbar {
+    height: 37px;
+    background-color: #f4f5f6;
+    border-bottom: 1px solid rgba(221,221,221,.4);
+    display: flex;
+    .navlist {
+      flex: 1;
+      line-height: 36px;
+      overflow: auto;
+      overflow-y: hidden;
+      white-space: nowrap;
+      .nav {
+        display: inline-block;
+        padding: 0 14px;
+        font-size: 17px;
+        color: #505050;
+        &.active {
+          color: #f85959;
+        }
+      }
+    }
+    .plusnav {
+      position: relative;
+      width: 40px;
+      box-shadow: -4px 0 5px -3px #aaa;
+      &::before, &::after {
+        content: " ";
+        display: block;
+        position: absolute;
+        background-color: #f85959;
+      }
+      &::before {
+        width: 18px;
+        height: 2px;
+        left: 11px;
+        top: 17px;
+      }
+      &::after {
+        width: 2px;
+        height: 18px;
+        left: 19px;
+        top: 9px;
+      }
+    }
+  }
+
+  // home信息流
+  .feedlist {
+    flex: 1;
+    overflow: hidden;
+    overflow-y: auto;
+
+    // loading
+    .loading {
+      font-size: 14px;
+      width: 90px;
+      margin: 0 auto;
+      padding: 2px 0 2px 20px;
+      background: url(../../assets/loading.gif) no-repeat left center;
+      background-size: 16px;
+      color: #062b4e;
+    }
+
+    // success
+    .success {
+      text-align: center;
+      font-size: 14px;
+      color: #5ae643;
+      padding-top: 4px;
+      animation: successShowAndHide 2s linear forwards;
+    }
+    
+    // 到底了
+    .feed-none {
+      text-align: center;
+      font-size: 12px;
+      color: #999;
+      padding: 10px 0;
+    }
+  }
+
+  @keyframes successShowAndHide {
+    0% {
+      opacity: 0;
+    }
+    20% {
+      opacity: 1;
+    }
+    80% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.6;
+    }
+  }
+}
+
+// 消息盒子
+.message-box {
+  height: 100%;
+  background-color: #eee;
+  display: flex;
+  flex-direction: column;
+
+  .header {
+    position: relative;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-weight: bolder;
+    color: #fff;
+    background-color: #d43d3d;
+    .back {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 44px;
+      background: url(../../assets/back_white.png) no-repeat center;
+      background-size: 22px;
+    }
+  }
+
+  .message-list {
+    flex: 1;
+    background-color: #fff;
+    overflow-y: auto;
+    .message-item {
+      margin-left: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      &:last-of-type {
+        border-bottom: 0;
+      }
+      .item-left {
+        width: 40px;
+        .user-avatar {
+          position: relative;
+          height: 40px;
+          .vip {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            height: 14px;
+            width: 14px;
+            background: url(../../assets/vip.png) no-repeat center;
+            background-size: contain;
+          }
+          img {
+            float: left;
+            width: 100%;
+            border-radius: 50%;
+          }
+        }
+      }
+      .item-meddle {
+        flex: 1;
+        padding: 0 30px 0 10px;
+        .user-name {
+          font-size: 13px;
+          font-weight: bold;
+        }
+        .user-label {
+          font-size: 12px;
+          color: #666;
+          margin-bottom: 10px;
+        }
+        .user-message {
+          font-size: 16px;
+          line-height: 1.3;
+          color: #222;
+        }
+        .user-time {
+          font-size: 12px;
+          margin-top: 6px;
+        }
+        .other-like {
+          display: inline-block;
+          margin-top: 10px;
+          height: 24px;
+          line-height: 24px;
+          padding: 0 10px;
+          font-size: 13px;
+          border-radius: 12px;
+          background-color: #f0f0f0;
+          color: #1765af;
+        }
+      }
+      .item-right {
+        font-size: 12px;
+        width: 100px;
+        padding-right: 15px;
+        color: #222;
+      }
+    }
+  }
+}

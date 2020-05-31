@@ -1,0 +1,60 @@
+.page-channel {
+  display: flex;
+  flex-direction: column;
+
+  .header {
+    position: relative;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-weight: bolder;
+    color: #fff;
+    background-color: #d43d3d;
+    .back {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 44px;
+      background: url(../../assets/back_white.png) no-repeat center;
+      background-size: 22px;
+    }
+  }
+
+  .channel-title {
+    font-size: 12px;
+    padding: 10px;
+    color: #666;
+  }
+
+  .channel-list {
+    padding: 0 10px;
+    .item {
+      display: inline-block;
+      width: 25%;
+      margin-bottom: 10px;
+      animation: zoomIn .3s ease;
+      .channel {
+        font-size: 16px;
+        display: block;
+        margin: 0 8px;
+        border: 1px solid #ccc;
+        text-align: center;
+        line-height: 2em;
+        &.disabled {
+          background-color: #f0f0f0;
+        }
+      }
+    }
+  }
+
+  @keyframes zoomIn {
+    0% {
+      opacity: 0;
+      transform: scale3d(.3,.3,.3);
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+}

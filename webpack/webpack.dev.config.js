@@ -4,12 +4,12 @@ const webpack = require('webpack');
 const resolvePath = pathstr => path.resolve(__dirname, pathstr);
 
 // 指定babel编译环境
-process.env.BABEL_ENV ='development';
+process.env.BABEL_ENV = 'client';
 
 module.exports = {
   mode: 'development',
   entry: {
-    main: ['react-hot-loader/patch', resolvePath('../src/client/app/index.js')]
+    main: ['react-hot-loader/patch', resolvePath('../src/client/index.js')]
   },
   output: {
     filename: '[name].js',
@@ -69,7 +69,10 @@ module.exports = {
   },
   resolve: {
     alias: {
-      'react-dom': '@hot-loader/react-dom'
+      "react-dom": '@hot-loader/react-dom',
+      "assets": resolvePath('../src/client/assets'),
+      "components": resolvePath('../src/client/components'),
+      "utils": resolvePath('../src/client/utils')
     }
   }
 };

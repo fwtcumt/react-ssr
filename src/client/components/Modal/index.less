@@ -1,0 +1,190 @@
+// 用于alert和confirm
+.alert-root {
+  @keyframes alert-show {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes alert-hide {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+  .alert-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,.6);
+    overflow: hidden;
+    display: none;
+    &.show {
+      display: block;
+      animation: alert-show 200ms linear;
+    }
+    &.hideing {
+      animation: alert-hide 200ms linear forwards;
+    }
+    &.hide {
+      display: none;
+    }
+
+    .alert-site {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      overflow: hidden;
+      overflow-y: auto;
+    }
+
+    .alert {
+      display: flex;
+      flex-direction: column;
+      width: 280px;
+      border-radius: 4px;
+      background-color: #fff;
+      overflow: hidden;
+      .alert-content {
+        flex: 1;
+        text-align: center;
+        padding: 30px 20px;
+        font-size: 16px;
+        max-height: 200px;
+        word-break: break-all;
+        overflow-y: auto;
+      }
+      .alert-btns {
+        text-align: center;
+        height: 54px;
+        line-height: 54px;
+        font-size: 14px;
+        font-weight: bold;
+        color: #062b4e;
+        border-top: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
+        user-select: none;
+        span {
+          flex: 1;
+          &:active {
+            background-color: #efefef;
+            opacity: 0.6;
+          }
+        }
+        .btn-cancel {
+          color: #408ad0;
+          border-right: 1px solid #eee;
+        }
+      }
+    }
+  }
+}
+
+// 用于modal
+.modal-root {
+  @keyframes modal-enter-left {
+    from {
+      left: -100%;
+      opacity: 0;
+    }
+    to {
+      left: 0;
+      opacity: 1;
+    }
+  }
+  @keyframes modal-exit-left {
+    from {
+      left: 0;
+      opacity: 1;
+    }
+    to {
+      left: -100%;
+      opacity: 0;
+    }
+  }
+  @keyframes modal-enter-right {
+    from {
+      left: 100%;
+      opacity: 0;
+    }
+    to {
+      left: 0;
+      opacity: 1;
+    }
+  }
+  @keyframes modal-exit-right {
+    from {
+      left: 0;
+      opacity: 1;
+    }
+    to {
+      left: 100%;
+      opacity: 0;
+    }
+  }
+  @keyframes modal-enter-bottom {
+    from {
+      top: 100%;
+      opacity: 0;
+    }
+    to {
+      top: 0;
+      opacity: 1;
+    }
+  }
+  @keyframes modal-exit-bottom {
+    from {
+      top: 0;
+      opacity: 1;
+    }
+    to {
+      top: 100%;
+      opacity: 0;
+    }
+  }
+  .modal-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,.6);
+    opacity: 1;
+    overflow: hidden;
+    &.enter-left {
+      animation: modal-enter-left 300ms ease-out;
+    }
+    &.exit-left {
+      animation: modal-exit-left 300ms linear;
+    }
+    &.enter-right {
+      animation: modal-enter-right 300ms ease-out;
+    }
+    &.exit-right {
+      animation: modal-exit-right 300ms linear;
+    }
+    &.enter-bottom {
+      animation: modal-enter-bottom 300ms ease-out;
+    }
+    &.exit-bottom {
+      animation: modal-exit-bottom 300ms linear;
+    }
+
+    .modal-site {
+      height: 100%;
+      max-width: 100%;
+      overflow: hidden;
+      overflow-y: auto;
+    }
+  }
+}

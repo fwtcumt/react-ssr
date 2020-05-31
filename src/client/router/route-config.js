@@ -1,6 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import AsyncLoader from './async-loader';
+
+const req = require.context('../pages', true, /route\.jsx?$/);
+const allRoutes = [].concat.apply([], req.keys().map(k => req(k).default || []));
 
 function PageNotFound() {
   return (
@@ -10,26 +13,18 @@ function PageNotFound() {
         <meta name="description" content="404" />
         <meta name="keywords" content="404" />
       </Helmet>
-      
-      <div>404页面!</div>
+
+      <p>你访问的页面突然就消失了，怎么办呢？</p>
+      <Link to="/">返回首页</Link>
     </div>
   );
 }
 
-export default [
-  {
-    path: ['/', '/index'],
-    component: AsyncLoader(() => import(/*webpackChunkName:"chunk-index"*/'../pages/index')),
-    exact: true
-  },
-  {
-    path: '/list',
-    component: AsyncLoader(() => import(/*webpackChunkName:"chunk-list"*/'../pages/list')),
-    exact: true
-  },
-  {
-    path: '*',
-    component: PageNotFound,
-    exact: true
-  }
-];
+allRoutes.push({
+  path: '*',
+  component: PageNotFound,
+  exact: true
+});
+
+
+export default allRoutes;

@@ -1,28 +1,27 @@
 const path = require('path');
 const webpack = require('webpack');
-const nodeExternals = require('webpack-node-externals'); // node端会自动载入的模块
+const nodeExternals = require('webpack-node-externals'); // node端会自动载入的模块，不需要打进包
 
 // 构建前清理目录
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
-// 路径转换
 const resolvePath = pathstr => path.resolve(__dirname, pathstr);
 
 // 设置 babel 运行的环境变量
 process.env.BABEL_ENV = 'node';
 
-//获取当前环境
+// 当前环境
 const isProd = process.env.NODE_ENV === 'production';
 
 module.exports = {
   mode: process.env.NODE_ENV,
   target: 'node',
-  entry: resolvePath('../src/server/app/index.js'), // 服务端入口文件
+  entry: resolvePath('../src/server/index.js'),
   output: {
-    filename: 'app.js', // 打包后的文件名
-    path: resolvePath('../dist/server') // 文件输出目录
+    filename: 'app.js',
+    path: resolvePath('../dist/server')
   },
-  externals: [nodeExternals()], // 端不需要打包的模块
+  externals: [nodeExternals()], // 指定node端不需要打包的模块
   module: {
     rules: [
       {
@@ -68,7 +67,10 @@ module.exports = {
   ],
   resolve: {
     alias: {
-      '@dist': path.resolve(__dirname,'../dist')
+      '@dist': path.resolve(__dirname,'../dist'),
+      "assets": resolvePath('../src/client/assets'),
+      "components": resolvePath('../src/client/components'),
+      "utils": resolvePath('../src/client/utils')
     }
   }
 };

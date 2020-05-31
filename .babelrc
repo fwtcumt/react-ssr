@@ -1,5 +1,6 @@
 {
   "env": {
+    // node端配置
     "node":{
       "presets": [
         [
@@ -16,7 +17,8 @@
         "@babel/plugin-proposal-class-properties"
       ]
     },
-    "development": {
+    // 客户端配置
+    "client": {
       "presets": [
         [
           "@babel/preset-env",

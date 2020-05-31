@@ -1,6 +1,5 @@
 import React from 'react';
-import Loading from './loading';
-import proConfig from '../../share/pro-config';
+import RouteLoading from 'components/RouteLoading';
 
 function AsyncLoader (loader) {
   class AsyncBundle extends React.Component {
@@ -22,12 +21,12 @@ function AsyncLoader (loader) {
     render() {
       const { Mod } = this.state;
 
-      return Mod ? <Mod {...this.props} /> : <Loading />;
+      return Mod ? <Mod {...this.props} /> : <RouteLoading />;
     }
   }
 
   // 标记为异步组件
-  AsyncBundle[proConfig.asyncComponentKey] = true;
+  AsyncBundle.isAsync = true;
   AsyncBundle.loader = loader;
 
   return AsyncBundle;

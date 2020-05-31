@@ -1,0 +1,196 @@
+// 信息流模板
+.feed {
+  display: block;
+  margin: 0 10px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(221,221,221,.4);
+  &:last-of-type {
+    border-bottom-color: transparent;
+  }
+  // 信息头
+  .feed-hd {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 36px;
+    margin-bottom: 12px;
+    .author-avatar {
+      position: relative;
+      width: 36px;
+      margin-right: 10px;
+      img {
+        float: left;
+        height: 100%;
+        width: 100%;
+        border-radius: 50%;
+      }
+      .vip {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        z-index: 2;
+        height: 14px;
+        width: 14px;
+        background: url(../../assets/vip.png) no-repeat center;
+        background-size: 14px;
+      }
+    }
+    .author-info {
+      flex: 1;
+      .name {
+        color: #222;
+        font-weight: bold;
+        font-size: 14px;
+      }
+      .label {
+        font-size: 12px;
+        color: #999;
+      }
+    }
+    .author-friend {
+      width: 60px;
+      text-align: right;
+      font-size: 14px;
+      .friend {
+        color: #999;
+      }
+      .unfriend {
+        color: #f85959;
+      }
+    }
+  }
+  // 信息标题
+  .feed-tit {
+    font-size: 17px;
+    line-height: 1.4;
+    color: #111;
+    .lighting {
+      color: #f85959;
+      font-weight: bold;
+    }
+  }
+  // 点击过的信息标题
+  &:visited {
+    .feed-tit {
+      color: #888;
+    }
+  }
+  // 图片容器
+  .feed-pic {
+    overflow: hidden;
+  }
+  // 信息杂项
+  .feed-info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 6px;
+    font-size: 12px;
+    line-height: 20px;
+    color: #999;
+    .info-l {
+      span {
+        margin-right: 6px;
+        &.ad {
+          background-color: #eee;
+          padding: 0 2PX;
+          color: #888;
+          border-radius: 1px;
+        }
+        &.red {
+          color: #f85959;
+        }
+      }
+    }
+    .info-r {
+      display: flex;
+      align-self: center;
+      .close {
+        height: 14px;
+        width: 20px;
+        background: url(../../assets/cross.png) no-repeat center #efefef;
+        background-size: 8px;
+        border-radius: 2px;
+      }
+    }
+  }
+  // 图片统一样式
+  img {
+    border-radius: 2px;
+    width: 100%;
+    float: left;
+  }
+
+  // 小图信息流
+  &.feed-smallpic {
+    .feed-l {
+      display: inline-block;
+      vertical-align: middle;
+      width: 67%;
+      padding-right: 12px;
+    }
+    .feed-r {
+      display: inline-block;
+      vertical-align: middle;
+      width: 33%;
+      overflow: hidden;
+    }
+  }
+
+  // 三图信息流
+  &.feed-threepic {
+    .feed-pic {
+      margin-top: 4px;
+      img {
+        width: 33%;
+        &:nth-of-type(2) {
+          margin: 0 .5%;
+        }
+      }
+    }
+  }
+
+  // 大图信息流
+  &.feed-bigpic {
+    .feed-pic {
+      margin-top: 4px;
+    }
+  }
+
+  // 视频信息流
+  &.feed-feedvideo {
+    .feed-pic {
+      position: relative;
+      .feed-tit {
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 4;
+        width: 100%;
+        color: #eee;
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
+        height: 40%;
+        font-size: 16px;
+        padding: 5px 10px;
+        border-radius: 2px 2px;
+      }
+      .videoplay {
+        position: absolute;
+        top: 0; left: 0; z-index: 2;
+        height: 100%;
+        width: 100%;
+        background: url(../../assets/play_pray.png) no-repeat center;
+        background-size: 50px;
+      }
+      .videotime {
+        position: absolute;
+        bottom: 6px; right: 6px; z-index: 3;
+        line-height: 16px;
+        padding: 0 8px;
+        color: #eee;
+        background-color: rgba(0,0,0,.4);
+        font-size: 10px;
+        border-radius: 8px;
+      }
+    }
+  }
+}

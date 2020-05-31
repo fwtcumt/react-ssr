@@ -1,0 +1,12 @@
+{
+	"compilerOptions": {
+		"experimentalDecorators": true,
+			"baseUrl": "./src/client",
+			"paths": {
+				"assets/*": ["assets/*"],
+				"components/*": ["components/*"],
+				"utils/*": ["utils/*"]
+			}
+	},
+	"exclude": ["node_modules", "build"]
+}

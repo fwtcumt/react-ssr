@@ -7,23 +7,19 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 //生成 manifest 方便定位对应的资源文件
 const ManifestPlugin = require('webpack-manifest-plugin');
 
-// 压缩css
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-
 // 压缩js
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
-// 路径处理
 const resolvePath = pathstr => path.resolve(__dirname, pathstr);
 
 // 指定babel编译环境
-process.env.BABEL_ENV ='development';
+process.env.BABEL_ENV = 'client';
 
 module.exports = {
   mode: 'production',
   devtool: 'none',
   entry: {
-    main: resolvePath('../src/client/app/index.js')
+    main: resolvePath('../src/client/index.js')
   },
   output: {
     filename: 'js/[name].[chunkhash:8].js',
@@ -93,8 +89,7 @@ module.exports = {
         cache: true,
         parallel: true,
         sourceMap: false
-      }),
-      new OptimizeCSSAssetsPlugin()
+      })
     ],
     splitChunks: {
       cacheGroups: {
@@ -104,6 +99,13 @@ module.exports = {
           name: 'libs'
         }
       }
+    }
+  },
+  resolve: {
+    alias: {
+      "assets": resolvePath('../src/client/assets'),
+      "components": resolvePath('../src/client/components'),
+      "utils": resolvePath('../src/client/utils')
     }
   }
 };
