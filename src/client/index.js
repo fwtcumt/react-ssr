@@ -12,15 +12,16 @@ import getStore from '../share/get-store';
 
 function renderDom() {
 
+  // 由服务端传来的数据生成store
+  const store = getStore(JSON.parse(document.getElementById('ssrTextInitData').value));
+  window.__STORE__ = store;
+
   const insertCss = (...styles) => {
     // 客户端执行，插入style
-    const removeCss = styles.map(style => style._insertCss());
+    const insertCssList = styles.map(style => style._insertCss());
     // 组件卸载时，移除style
-    return () => removeCss.forEach(dispose => dispose());
+    return () => insertCssList.forEach(dispose => dispose());
   }
-
-  const store = getStore(window.__INITIAL_DATA__);
-  window.__STORE__ = store;
 
   ReactDom.hydrate(
     <Provider store={store}>
@@ -34,23 +35,15 @@ function renderDom() {
   );
 }
 
-function clientRender() {
-
-  // 拿出服务端传来的数据
-  window.__INITIAL_DATA__ = JSON.parse(document.getElementById('ssrTextInitData').value);
-
-  // 查找路由
-  const targetRoute = matchRoute(document.location.pathname, routeList);
+// 查找路由
+const targetRoute = matchRoute(document.location.pathname, routeList);
   
-  if (targetRoute && targetRoute.component.isAsync) {
-    targetRoute.component.loader().then(res => {
-      // 把异步路由变成同步路由
-      targetRoute.component = res.default;
-      renderDom();
-    });
-  } else {
+if (targetRoute && targetRoute.component.isAsync) {
+  // 把异步路由变成同步路由
+  targetRoute.component.loader().then(res => {
+    targetRoute.component = res.default;
     renderDom();
-  }
+  });
+} else {
+  renderDom();
 }
-
-clientRender();
