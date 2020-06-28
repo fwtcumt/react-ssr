@@ -20,13 +20,14 @@ const fetchChache = {};
 
 export default async (ctx, next) => {
 
+  // 访问路径
   const path = ctx.request.path;
 
-  // 获得静态路由
+  // 静态路由
   const staticRoutesList = await getStaticRoutes(routeList);
   
-  // 查找到的目标路由对象
-  let targetRoute = await matchRoute(path, staticRoutesList);
+  // 查找路由
+  const targetRoute = matchRoute(path, staticRoutesList);
 
   const store = getStore();
 
@@ -36,13 +37,15 @@ export default async (ctx, next) => {
   if (onEnter) {
     const cacheData = fetchChache[path]?.data;
     const cacheTime = fetchChache[path]?.time;
-    // 缓存30秒
-    if (cacheTime && Date.now() - cacheTime <= 30000) {
-      await onEnter({ store, cacheData });
-    } else {
-      const res = await onEnter({ store });
-      fetchChache[path] = { data: res, time: Date.now() };
-    };
+    try {
+      // 缓存30秒
+      if (cacheTime && Date.now() - cacheTime <= 30000) {
+        await onEnter({ store, cacheData });
+      } else {
+        const res = await onEnter({ store });
+        if (res) fetchChache[path] = { data: res, time: Date.now() };
+      };
+    } catch {}
   }
 
   // 获得当前路由依赖的CSS，为了避免重复，使用Set
@@ -68,7 +71,7 @@ export default async (ctx, next) => {
   // 静态资源
   const assetsMap = getAssets();
 
-  // 组件的序列化数据
+  // Helmet序列化
   const helmet = Helmet.renderStatic();
 
   ctx.body = `
